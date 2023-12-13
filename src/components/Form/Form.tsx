@@ -104,8 +104,8 @@ export const Form: React.FC = () => {
     );
   } else {
     return (
-      <div className="flex flex-wrap items-center p-auto md:gap-0.5">
-        <div className="flex flex-wrap justify-center mx-auto bg-white shadow-xl h-[380px] w-[380px] md:min-h-[554.2px] md:min-w-[500px] ">
+      <div className="flex flex-wrap items-center md:gap-0.5">
+        <div className="flex flex-wrap justify-center mx-auto bg-white shadow-xl h-[370px] w-[370px] md:min-h-[554.2px] md:min-w-[500px] ">
           <form
             onSubmit={handleData
             //   handleSubmit((e: any) => {
@@ -208,7 +208,7 @@ export const Form: React.FC = () => {
             </div>
           </form>
         </div>
-        <div className="flex flex-wrap justify-center mx-auto  bg-white shadow-xl h-[380px] w-[380px] md:min-h-[554.2px] md:min-w-[500px] ">
+        <div className="flex flex-wrap justify-center mx-auto  bg-white shadow-xl h-[370px] w-[370px] md:min-h-[554.2px] md:min-w-[500px] ">
           <img
             className="rounded-full h-36 m-auto"
             src="https://images.pexels.com/photos/4533747/pexels-photo-4533747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -218,3 +218,4 @@ export const Form: React.FC = () => {
     );
   }
 };
+ 
