@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useDispatch, useSelector } from "react-redux";
-import { updateField } from "../../redux/FormData/FormDataSlice";
+import { updateField, resetForm } from "../redux/FormData/FormDataSlice";
 
 interface FormData {
   name: string;
@@ -38,29 +38,30 @@ const schema = z.object({
     .min(10, { message: "10 digits only" }),
 });
 
-export const Form: React.FC = () => {
+ export const Form: React.FC = () => {
   const dispatch = useDispatch();
   const formData = useSelector((state: RootState) => state.formData);
 
-  console.log({ formData });
+  console.log({formData})
 
-  const data: FormData = { name: "", email: "", phoneNumber: "" };
+
+
+  const data : FormData = { name: "", email: "", phoneNumber: "" };
   const [inputData, setInputData] = useState<FormData>(data);
 
   const [flag, setFlag] = useState(false);
 
-   const handleData = (e: any) => {
-      setFlag(true);
-      dispatch(updateField(e));
-   };
+  //  const handleData = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //    dispatch(updateField({ field: e.target.name, value: e.target.value }));
+  //  };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
+   const {
+     register,
+     handleSubmit,
+     formState: { errors },
+   } = useForm<FormData>({
+     resolver: zodResolver(schema),
+   });
 
   if (flag === true) {
     return (
@@ -104,33 +105,30 @@ export const Form: React.FC = () => {
     );
   } else {
     return (
-      <div className="flex flex-wrap items-center p-auto md:gap-0.5">
-        <div className="flex flex-wrap justify-center mx-auto bg-white shadow-xl h-[380px] w-[380px] md:min-h-[554.2px] md:min-w-[500px] ">
+      <div className="flex flex-wrap items-center gap-0.5">
+        <div className="flex flex-wrap justify-center mx-auto bg-white shadow-xl h-3/4 full md:min-w-[500px] ">
           <form
-            onSubmit={handleData
-            //   handleSubmit((e: any) => {
-            //    setFlag(true);
-            //   dispatch(updateField(e));
-             
-            //   //dispatch(resetForm());
-            // })
-          }
+            onSubmit={handleSubmit((e: any) => {
+              setFlag(true);
+              dispatch(updateField(e));
+              // dispatch(resetForm());
+            })}
           >
             <div className="text-center font-bold my-2 text-black decoration-from-font pt-8 text-2xl">
               <h1>Welcome Back!</h1>
             </div>
-            <h2 className="text-center mx-1 text-gray-500 text-xs">
+            <h2 className="text-center mx-1 text-gray-500">
               Sign in to your account
             </h2>
 
-            <div className="flex flex-col justify-center m-auto md:min-px-[28px] pt-8 md:pt-24">
+            <div className="flex flex-col justify-center m-auto py-4 px-28 pt-12">
               <div className=" flex flex-col mb-4 text-[10px] text-gray-400 font-semibold">
                 <label>Name</label>
                 <input
                   type="text"
                   placeholder=""
                   {...register("name")}
-                  className="p-1 border md:min-w-[72px] rounded-md border-gray-200"
+                  className="p-1 border w-72 rounded-md border-gray-120"
                 />
 
                 {errors.name?.message && (
@@ -143,14 +141,14 @@ export const Form: React.FC = () => {
                   type="text"
                   placeholder=""
                   {...register("email")}
-                  className="p-1 border rounded-md border-gray-200 md:min-w-[72px]"
+                  className="p-1 border w-72 rounded-md border-gray-120"
                 />
 
                 {errors.email?.message && (
                   <p className="text-red-500">{errors.email?.message}</p>
                 )}
               </div>
-              {/* <div className="flex flex-col mb-4 text-[10px] text-gray-400 font-semibold">
+              <div className="flex flex-col mb-4 text-[10px] text-gray-400 font-semibold">
                 <label>Phone number</label>
                 <input
                   type="text"
@@ -162,7 +160,7 @@ export const Form: React.FC = () => {
                 {errors.phoneNumber?.message && (
                   <p className="text-red-500">{errors.phoneNumber?.message}</p>
                 )}
-              </div> */}
+              </div>
               <div className="flex items-center mb-2">
                 <input
                   id="default-checkbox"
@@ -172,15 +170,15 @@ export const Form: React.FC = () => {
                 />
                 <label
                   htmlFor="default-checkbox"
-                  className="ms-2  text-gray-400 text-[8px] dark:text-gray-300 from-neutral-400"
+                  className="ms-2 text-sm font-medium text-gray-400 text-[8px] dark:text-gray-300 from-neutral-400"
                 >
                   Remember me
                 </label>
                 <label
                   htmlFor="default-checkbox"
-                  className="ms-2 text-red-400 text-[8px] dark:text-red-300 from-neutral-red pl-40"
+                  className="ms-2 text-sm font-medium text-red-400 text-[8px] dark:text-red-300 from-neutral-red pl-32"
                 >
-                  Change Email
+                  Change phoneNumber
                 </label>
               </div>
             </div>
@@ -192,23 +190,23 @@ export const Form: React.FC = () => {
                 Next
               </button>
             </div>
-            <div className="flex flex-row justify-center pt-12 md:pt-16 ">
+            <div className="flex flex-row justify-center pt-16 ">
               <label
                 htmlFor="default-checkbox"
-                className="ms-2 text-sm font-medium text-gray-400 text-[8px] dark:text-gray-300 from-neutral-400"
+                className="ms-2 text-sm font-medium text-gray-400 text-[12px] dark:text-gray-300 from-neutral-400"
               >
                 Don't have account yet?
               </label>
               <label
                 htmlFor="default-checkbox"
-                className=" text-sm font-medium text-red-400 text-[8px] dark:text-red-300 from-neutral-red ml-0.5 "
+                className=" text-sm font-medium text-red-400 text-[12px] dark:text-red-300 from-neutral-red ml-0.5 "
               >
                 Signup here
               </label>
             </div>
           </form>
         </div>
-        <div className="flex flex-wrap justify-center mx-auto  bg-white shadow-xl h-[380px] w-[380px] md:min-h-[554.2px] md:min-w-[500px] ">
+        <div className="flex justify-center mx-auto py-auto shadow-xl bg-white h-3/4 md:min-w-[500px]">
           <img
             className="rounded-full h-36 m-auto"
             src="https://images.pexels.com/photos/4533747/pexels-photo-4533747.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -218,3 +216,6 @@ export const Form: React.FC = () => {
     );
   }
 };
+
+
+
